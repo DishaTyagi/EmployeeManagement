@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="/css/styles.css">
+
+</head>
+<body>
+    <form action="/login" method="POST">
+        
+        <label>
+          <p class="label-txt">ENTER YOUR NAME</p>
+          <input type="text" class="input" name="username">
+          <div class="line-box">
+            <div class="line"></div>
+          </div>
+        </label>
+        <label>
+          <p class="label-txt">ENTER YOUR PASSWORD</p>
+          <input type="password" class="input" name="password">
+          <div class="line-box">
+            <div class="line"></div>
+          </div>
+        </label>
+        <button type="submit">submit</button>
+
+        <p class="lead mt-4">
+          No Account? <a href="/">signup</a>
+        </p>
+
+        <!-- <p class="lead mt-4">
+          <a href="/auth/facebook" class="btn btn-dark btn-block"><i class="fab fa-facebook"></i>Login with Facebook</a>
+        </p> -->
+               
+        <!-- <p class="lead mt-4">
+          <a href="/users/login/google" class="btn btn-dark btn-block">Login with Google</a>
+        </p> -->
+    </form>
+
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</body>
+</html>
