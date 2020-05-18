@@ -11,17 +11,26 @@ var session = require('express-session');
 
 var configDB = require('./config/database.js');
 
-mongoose.connect(configDB.url); 
+mongoose.connect(configDB.url, { useNewUrlParser: true , useUnifiedTopology: true, useFindAndModify: false }); 
 
 require('./config/passport')(passport); // pass passport for configuration
 
 app.use(morgan('dev')); 
 app.use(cookieParser()); 
 app.use(express.urlencoded({extended: true})); 
+// app.use(express.static('public'));
 
 app.set('view engine', 'ejs'); 
 
-app.use(session({ secret: 'ilovedish' })); 
+app.use(session({ 
+    secret: 'ilovedish' ,
+    resave: false,
+    saveUninitialized: true,
+    cookie:{
+        maxAge: 1000*60*60     //in milliseconds
+    }
+})); 
+
 app.use(passport.initialize());
 app.use(passport.session()); 
 app.use(flash());
