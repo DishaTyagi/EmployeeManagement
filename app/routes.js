@@ -9,7 +9,7 @@ module.exports = function(app, passport) {
     });
 
     app.post('/login', passport.authenticate('local-login', {
-        successRedirect : '/profile', 
+        successRedirect : '/home', 
         failureRedirect : '/login', 
         failureFlash : true 
     }));
@@ -19,7 +19,7 @@ module.exports = function(app, passport) {
     });
 
     app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect : '/profile', 
+        successRedirect : '/home', 
         failureRedirect : '/signup', 
         failureFlash : true 
     }));
@@ -30,11 +30,23 @@ module.exports = function(app, passport) {
         res.redirect('/');
     }
 
+    app.get('/home', isLoggedIn, (req,res) => {
+        res.render('home');
+    })
+
+    app.get('/about', isLoggedIn, (req,res) => {
+        res.render('about');
+    })
+
     app.get('/profile', isLoggedIn, function(req, res) {
         res.render('profile.ejs', {
             user : req.user 
         });
     });
+
+    app.get('/contact', isLoggedIn, (req,res) => {
+        res.render('contact');
+    })
 
     app.get('/logout', function(req, res) {
         req.logout();

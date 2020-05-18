@@ -1,64 +1,23 @@
-<!doctype html>
-<html>
-<head>
-    <title>Profile</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-    <style>
-        body{word-wrap:break-word; }
-    </style>
-</head>
-<body>
-
-    <nav class="navbar navbar-default navbar-static-top">
-        <div class="container" style="padding: 20px;">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">EMPLOYEE MANAGEMENT WEBSITE</a>
-        
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <sapn class="icon-bar"></sapn>
-                </button>
-            </div>
-
-            <ul class="nav navbar-nav navbar-right collapse navbar-collapse">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Profile</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="/logout">Logout</a></li>
-            </ul>
-        </div>
-    </nav>
+<%- include('partials/header') -%> 
       
-    <div class="container">
+<div class="jumbotron text-center">
+    <h1><span class="fa fa-anchor"></span>Profile</h1>
+</div>
 
-        <div class="page-header text-center">
-            <h1><span class="fa fa-anchor"></span> Profile Page</h1>
-        </div>
-
-        <div class="row">
-            
-            <!-- LOCAL INFORMATION -->
-            <div class="col-sm-6">
-                <div class="well">
-                    <h3><span class="fa fa-user"></span> Local</h3>
-
-                        <p>
-                            <strong>id</strong>: <%= user._id %><br>
-                            <strong>email</strong>: <%= user.local.email %><br>
-                            <strong>password</strong>: <%= user.local.password %>
-                        </p>
-
-                </div>
+<div class="container">
+    <div class="row">            
+        <!-- LOCAL INFORMATION -->
+        <div class="col-sm-6">
+            <div class="well">
+                <h3><span class="fa fa-user"></span> Local</h3>
+                <p>
+                    <strong>id</strong>: <%= user._id %><br>
+                    <strong>email</strong>: <%= user.local.email %><br>
+                    <strong>password</strong>: <%= user.local.password %>
+                </p>
             </div>
-
         </div>
-
     </div>
+</div>
 
-
-</body>
-</html>
+<%- include('partials/footer') -%>
