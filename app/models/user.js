@@ -7,7 +7,9 @@ var userSchema = mongoose.Schema({
     local            : {
         email        : String,
         password     : String,
+        // role         : String
     },
+
     facebook         : {
         id           : String,
         token        : String,
@@ -29,6 +31,19 @@ var userSchema = mongoose.Schema({
 
 });
 
+
+//details schema for add details in a user profile
+var detailsSchema = mongoose.Schema({
+    email:String,
+    idUser:String,
+    fname: String,
+    lname: String,
+    age: Number,
+    address: String,
+    ph: Number
+});
+
+
 // methods ======================
 // generating a hash
 userSchema.methods.generateHash = function(password) {
@@ -41,4 +56,7 @@ userSchema.methods.validPassword = function(password) {
 };
 
 // create the model for users and expose it to our app
-module.exports = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
+const Detail = mongoose.model('Detail', detailsSchema);
+
+module.exports = {User, Detail}

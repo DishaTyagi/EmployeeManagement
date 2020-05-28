@@ -20,8 +20,17 @@
         <div class="alert alert-danger"><%= message %></div>
     <% } %>
 
+    <br>
+
     <!-- LOGIN FORM -->
     <form action="/signup" method="post">
+        <div class="form-group">
+            <label>Role</label>
+            <select class="form-control" name="admin">
+                <option value="true">Admin</option>
+                <option value="false">User</option>
+            </select>
+        </div>
         <div class="form-group">
             <label>Email</label>
             <input type="text" class="form-control" name="email">

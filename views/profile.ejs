@@ -5,19 +5,34 @@
 </div>
 
 <div class="container">
+
     <div class="row">            
         <!-- LOCAL INFORMATION -->
         <div class="col-sm-6">
             <div class="well">
                 <h3><span class="fa fa-user"></span> Local</h3>
                 <p>
-                    <strong>id</strong>: <%= user._id %><br>
-                    <strong>email</strong>: <%= user.local.email %><br>
-                    <strong>password</strong>: <%= user.local.password %>
+                    <%  if( length > 0 ){    %>
+                        <strong>email</strong>: <%= user.local.email %><br>
+                        <strong>First name</strong>: <%= fname %><br>
+                        <strong>Last name</strong>: <%= lname %><br>
+                        <strong>Age</strong>: <%= age %><br>
+                        <strong>Address</strong>: <%= address %><br>
+                        <strong>Phone number</strong>: <%= ph %><br>               
+                    <%  }else{ %>                    
+                        <p>
+                            <strong>email</strong>: <%= user.local.email %><br>
+                            <strong>password</strong>: <%= user.local.password %>
+                            <button><a href="/addDetails">Add Details</a></button>
+
+                        </p>
+                    <% }    %>
+                    
                 </p>
             </div>
         </div>
     </div>
 </div>
+
 
 <%- include('partials/footer') -%>
