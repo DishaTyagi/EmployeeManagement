@@ -46,7 +46,7 @@ module.exports = function(app, passport) {
         const userId = req.user._id ;
 
         var length = 0;
-        Detail.findOne({idUser: userId}, (err, foundItem) => {          //ISMEIN DIKKAT HAIIII.
+        Detail.findOne({idUser: userId}, (err, foundItem) => {          
             if(!err){
                 if(!foundItem){
                     length = 0 ;
@@ -82,28 +82,6 @@ module.exports = function(app, passport) {
         const age = req.body.age
         const address = req.body.address
         const ph = req.body.ph
-        
-            // Detail.create({
-            //     email: email,
-            //     idUser: userId,
-            //     fname: fname,
-            //     lname: lname,
-            //     age: age,
-            //     address: address,
-            //     ph: ph
-            // }).then(() => 
-            //     res.render('profile',{
-            //         user: req.user,
-            //         length : !0,                  
-            //         fname,
-            //         lname,
-            //         age,
-            //         address,
-            //         ph
-
-            //     })    
-
-            // );
 
             const detail = new Detail({
                 email: email,
