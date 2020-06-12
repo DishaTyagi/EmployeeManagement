@@ -3,13 +3,12 @@ var bcrypt   = require('bcrypt-nodejs');
 
 // define the schema for our user model
 var userSchema = mongoose.Schema({
-
     local            : {
         email        : String,
         password     : String,
+        isAdmin      : Boolean
         // role         : String
     },
-
     facebook         : {
         id           : String,
         token        : String,
@@ -30,8 +29,6 @@ var userSchema = mongoose.Schema({
     }
 
 });
-
-
 //details schema for add details in a user profile
 var detailsSchema = mongoose.Schema({
     email:String,
@@ -42,7 +39,6 @@ var detailsSchema = mongoose.Schema({
     address: String,
     ph: Number
 });
-
 
 // methods ======================
 // generating a hash

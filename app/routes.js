@@ -1,5 +1,5 @@
 const {User, Detail} = require('../app/models/user');
-const ObjectID = require('mongoose').ObjectID;
+// const ObjectID = require('mongoose').ObjectID;
 
 module.exports = function(app, passport) {
 
@@ -11,11 +11,16 @@ module.exports = function(app, passport) {
         res.render('login.ejs', { message: req.flash('loginMessage') }); 
     });
 
+    // app.get('/login', function(req,res){
+    //     User.findOne({})
+    // })
+
     app.post('/login', passport.authenticate('local-login', {
         successRedirect : '/home', 
         failureRedirect : '/login', 
         failureFlash : true 
-    }));
+        })
+    );
 
     app.get('/signup', function(req, res) {
         res.render('signup.ejs', { message: req.flash('signupMessage') });
@@ -33,8 +38,9 @@ module.exports = function(app, passport) {
         res.redirect('/');
     }
 
-    app.get('/home', isLoggedIn, (req,res) => {
-        res.render('home');
+    app.get('/home', isLoggedIn, (req,res) => {                
+        const view = req.user.local.isAdmin ? 'home_admin' : 'home';
+        res.render(view);
     })
 
     app.get('/about', isLoggedIn, (req,res) => {
@@ -42,9 +48,7 @@ module.exports = function(app, passport) {
     })
 
     app.get('/profile', isLoggedIn, function(req, res) {        
-
         const userId = req.user._id ;
-
         var length = 0;
         Detail.findOne({idUser: userId}, (err, foundItem) => {          
             if(!err){
@@ -66,12 +70,9 @@ module.exports = function(app, passport) {
                     })              
                 }
             }else{
-                console.log(err);
-                
-            }
-            
-        })
-        
+                console.log(err);                            
+            }            
+        })        
     });
 
     app.post('/profile',isLoggedIn, (req, res) => {
@@ -83,32 +84,30 @@ module.exports = function(app, passport) {
         const address = req.body.address
         const ph = req.body.ph
 
-            const detail = new Detail({
-                email: email,
-                idUser: userId,
-                fname: fname,
-                lname: lname,
-                age: age,
-                address: address,
-                ph: ph
-            });
+        const detail = new Detail({
+            email: email,
+            idUser: userId,
+            fname: fname,
+            lname: lname,
+            age: age,
+            address: address,
+            ph: ph
+        });
 
-            detail.save((err)=>{
-                if(err){
-                    console.log("err in saving detail");                    
-                }
-            })
-            res.render('profile',{
-                user: req.user,
-                length : !0,                  
-                fname,
-                lname,
-                age,
-                address,
-                ph
-
-            })  
-        
+        detail.save((err)=>{
+            if(err){
+                console.log("err in saving detail");                    
+            }
+        })
+        res.render('profile',{
+            user: req.user,
+            length : !0,                  
+            fname,
+            lname,
+            age,
+            address,
+            ph
+        })          
     })
 
     app.get('/addDetails',isLoggedIn, (req,res) => {
@@ -117,6 +116,9 @@ module.exports = function(app, passport) {
         });
     })
 
+    app.get('/admin_home',isLoggedIn ,(req,res) => {
+        res.render('home_admin');
+    })
     
     app.get('/contact', isLoggedIn, (req,res) => {
         res.render('contact');
