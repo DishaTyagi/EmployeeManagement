@@ -22,7 +22,26 @@ module.exports = function(app, passport) {
                 if(err){
                     return next(err);
                 }
-                req.user.local.isAdmin ? res.redirect('/admin_home') : res.redirect('/home')
+                let id = req.user._id;
+
+                User.findOne({_id: id}, (err, foundItem) => {
+                    if(!err) {
+                        if(foundItem){                            
+                            let checkAdmin;
+                            if(foundItem.local.isAdmin == true){
+                                checkAdmin = true
+                            }else{
+                                checkAdmin = false
+                            }
+                            // console.log(checkAdmin);                            
+                            if(checkAdmin){      
+                                res.redirect('/admin_home');
+                            }else{
+                                res.redirect('/home');
+                            }
+                        }
+                    }
+                })
             });
         })(req, res, next);
     })
@@ -31,12 +50,30 @@ module.exports = function(app, passport) {
         res.render('signup.ejs', { message: req.flash('signupMessage') });
     });
 
-    app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect : '/home', 
-        failureRedirect : '/signup', 
-        failureFlash : true 
-    }),);
-    
+    app.post('/signup', function(req, res, next){
+        passport.authenticate('local-signup', function(err, user, info){
+            if(err){
+                return next(err);
+            }
+            if(!user){
+                return res.redirect('/signup');
+            }
+            req.logIn(user, function(err){
+                if(err){
+                    return next(err);
+                }
+                let ia
+                if(req.body.admin == 'true')
+                    ia=true
+                else
+                    ia=false
+                console.log("req.body.admin inside signup route is " + ia );
+                
+                ia ? res.redirect('/admin_home') : res.redirect('/home')
+            });
+        })(req, res, next);
+    })
+
     function isLoggedIn(req, res, next) {
         if (req.isAuthenticated())
             return next();

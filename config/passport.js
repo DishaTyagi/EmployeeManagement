@@ -63,8 +63,13 @@ module.exports = function(passport) {
                     // set the user's local credentials
                     newUser.local.email    = email;
                     newUser.local.password = newUser.generateHash(password);
-                    newUser.local.isAdmin = req.body.admin ? true : false ;
-
+                    let checkAdmin;
+                    if(req.body.admin == 'true'){
+                        checkAdmin = true
+                    }else{
+                        checkAdmin= false
+                    }
+                    newUser.local.isAdmin = checkAdmin ? true : false ;                         
                     newUser.save(function(err) {
                         if (err)
                             throw err;
