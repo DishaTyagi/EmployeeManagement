@@ -62,14 +62,14 @@ module.exports = function(app, passport) {
                 if(err){
                     return next(err);
                 }
-                let ia
+                let checkAdmin
                 if(req.body.admin == 'true')
-                    ia=true
+                    checkAdmin=true
                 else
-                    ia=false
-                console.log("req.body.admin inside signup route is " + ia );
+                    checkAdmin=false
+                console.log("req.body.admin inside signup route is " + checkAdmin );
                 
-                ia ? res.redirect('/admin_home') : res.redirect('/home')
+                checkAdmin ? res.redirect('/admin_home') : res.redirect('/home')
             });
         })(req, res, next);
     })
@@ -78,6 +78,13 @@ module.exports = function(app, passport) {
         if (req.isAuthenticated())
             return next();
         res.redirect('/');
+    }
+
+    function isAdmin(req, res, next){
+        if(req.user.local.isAdmin == true){
+            return next();
+        }
+        res.redirect('/login');     //if not admin
     }
 
     app.get('/home', isLoggedIn, (req,res) => {   
@@ -156,7 +163,7 @@ module.exports = function(app, passport) {
         });
     })
 
-    app.get('/admin_home',isLoggedIn ,(req,res) => {
+    app.get('/admin_home',isLoggedIn , isAdmin, (req,res) => {
         res.render('home_admin');
     })
     
