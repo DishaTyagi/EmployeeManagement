@@ -1,5 +1,4 @@
 const {User, Detail} = require('../app/models/user');
-// const ObjectID = require('mongoose').ObjectID;
 
 module.exports = function(app, passport) {
 
@@ -11,16 +10,22 @@ module.exports = function(app, passport) {
         res.render('login.ejs', { message: req.flash('loginMessage') }); 
     });
 
-    // app.get('/login', function(req,res){
-    //     User.findOne({})
-    // })
-
-    app.post('/login', passport.authenticate('local-login', {
-        successRedirect : '/home', 
-        failureRedirect : '/login', 
-        failureFlash : true 
-        })
-    );
+    app.post('/login', function(req, res, next){
+        passport.authenticate('local-login', function(err, user, info){
+            if(err){
+                return next(err);
+            }
+            if(!user){
+                return res.redirect('/login');
+            }
+            req.logIn(user, function(err){
+                if(err){
+                    return next(err);
+                }
+                req.user.local.isAdmin ? res.redirect('/admin_home') : res.redirect('/home')
+            });
+        })(req, res, next);
+    })
 
     app.get('/signup', function(req, res) {
         res.render('signup.ejs', { message: req.flash('signupMessage') });
@@ -38,9 +43,8 @@ module.exports = function(app, passport) {
         res.redirect('/');
     }
 
-    app.get('/home', isLoggedIn, (req,res) => {                
-        const view = req.user.local.isAdmin ? 'home_admin' : 'home';
-        res.render(view);
+    app.get('/home', isLoggedIn, (req,res) => {   
+        res.render('home');
     })
 
     app.get('/about', isLoggedIn, (req,res) => {
@@ -54,7 +58,6 @@ module.exports = function(app, passport) {
             if(!err){
                 if(!foundItem){
                     length = 0 ;
-                    console.log("Error is found");
                     res.render('profile', {user: req.user, length: length})
                 }else{                
                     length= 1 ;
