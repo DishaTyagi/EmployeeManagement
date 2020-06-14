@@ -163,8 +163,22 @@ module.exports = function(app, passport) {
         });
     })
 
-    app.get('/admin_home',isLoggedIn , isAdmin, (req,res) => {
-        res.render('home_admin');
+    app.get('/admin_home',isLoggedIn ,isAdmin, (req,res) => {
+              
+        User.estimatedDocumentCount({}, function(err, count){
+            if(err){
+                console.log(err);                
+            }
+            User.find({}, function(err, foundItems){
+               if(!err){
+                   if(foundItems){
+                    res.render('home_admin', {count: count, items: foundItems})
+                   }
+               }else{
+                   console.log("ERROR IS " + err);                   
+               }                
+            })
+        })
     })
     
     app.get('/contact', isLoggedIn, (req,res) => {

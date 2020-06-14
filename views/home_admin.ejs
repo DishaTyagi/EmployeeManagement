@@ -1,7 +1,26 @@
 <%- include('partials/header') -%> 
 
 <div class="jumbotron text-center">
-    <h1><span class="fa"></span>Click on the required button to perform furthur operations.</h1>
+    <h1><span class="fa"></span>Admin Dashboard</h1>
 </div>
+<div class="text-center">
+    <a href="/signup" class="btn btn-warning btn-lg">Add User</a>
+</div>
+
+<br>
+<section class="container">
+    <div style="float: left; width: 30%; text-align: center;">
+        <h3>Total employees: <%= count %></h3>
+    </div>
+    <div style="float: left; width: 70%; text-align: center; background-color: rgb(236, 236, 229);">
+        <h3>List of employees</h3>
+        <% let num = 1 %> 
+        <% items.forEach(item => {  %>
+            <ul style="list-style-type: none; text-align: left;">
+                <li><%= num++ %>.&emsp; <%=item.local.email%>  </li>
+            </ul>
+        <% })  %> 
+    </div>
+</section>
 
 <%- include('partials/footer') -%>
