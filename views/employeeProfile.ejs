@@ -1,0 +1,21 @@
+<%- include('partials/header') %> 
+
+<div class="jumbotron text-center">
+    <h1><span class="fa"></span>Employee Profile</h1>
+</div>
+
+<% if(length == 0) { %> 
+    <div style="text-align:center; ">
+        <h3>First Name: <%= item.fname %> </h3>
+        <h3>Last Name: <%= item.lname %> </h3>
+        <h3>Age: <%= item.age %> </h3>
+        <h3>Address: <%= item.address %> </h3>
+        <h3>Phone no. <%= item.ph %> </h3>
+    </div>
+<% }else{ %> 
+    <div style="text-align: center;">
+        <h1>Profile not found</h1>
+    </div>
+<% } %> 
+
+<%- include('partials/footer') %> 

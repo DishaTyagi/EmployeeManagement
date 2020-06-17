@@ -27,7 +27,6 @@ var userSchema = mongoose.Schema({
         email        : String,
         name         : String
     }
-
 });
 //details schema for add details in a user profile
 var detailsSchema = mongoose.Schema({

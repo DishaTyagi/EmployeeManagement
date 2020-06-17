@@ -88,6 +88,9 @@ module.exports = function(app, passport) {
     }
 
     app.get('/home', isLoggedIn, (req,res) => {   
+        if(req.user.local.isAdmin == true){
+            return res.redirect('/admin_home');
+        }
         res.render('home');
     })
 
@@ -97,6 +100,7 @@ module.exports = function(app, passport) {
 
     app.get('/profile', isLoggedIn, function(req, res) {        
         const userId = req.user._id ;
+        // const userId = req.params.userId;
         var length = 0;
         Detail.findOne({idUser: userId}, (err, foundItem) => {          
             if(!err){
@@ -104,9 +108,10 @@ module.exports = function(app, passport) {
                     length = 0 ;
                     res.render('profile', {user: req.user, length: length})
                 }else{                
-                    length= 1 ;
+                    length = 1 ;
                     console.log("Item is found "+ foundItem);
                     res.render('profile', {
+                        // userId: userId,
                         length: length,
                         user: req.user,
                         fname: foundItem.fname,
@@ -163,8 +168,7 @@ module.exports = function(app, passport) {
         });
     })
 
-    app.get('/admin_home',isLoggedIn ,isAdmin, (req,res) => {
-              
+    app.get('/admin_home',isLoggedIn ,isAdmin, (req,res) => {              
         User.estimatedDocumentCount({}, function(err, count){
             if(err){
                 console.log(err);                
@@ -181,6 +185,21 @@ module.exports = function(app, passport) {
         })
     })
     
+    app.get('/profile/:id', isLoggedIn, isAdmin , (req,res) => {
+        const id = req.params.id ;
+        Detail.findOne({idUser : id}, (err, foundItem) => {
+            if(!err){
+                if(foundItem){
+                    res.render('employeeProfile', {item: foundItem, length: 0});                    
+                }else{
+                    res.render('employeeProfile', {length: 1})
+                }
+            }else{
+                console.log("ERROR.");                
+            }
+        })
+    })
+
     app.get('/contact', isLoggedIn, (req,res) => {
         res.render('contact');
     })

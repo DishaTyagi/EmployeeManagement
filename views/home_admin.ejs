@@ -16,8 +16,8 @@
         <h3>List of employees</h3>
         <% let num = 1 %> 
         <% items.forEach(item => {  %>
-            <ul style="list-style-type: none; text-align: left;">
-                <li><%= num++ %>.&emsp; <%=item.local.email%>  </li>
+            <ul style="list-style-type: none; text-align: left;">                
+                <li><%= num++ %>.&emsp; <a href="/profile/<%= item._id %>"  style="text-decoration: none;"><%=item.local.email%></a></li>
             </ul>
         <% })  %> 
     </div>
