@@ -1,4 +1,5 @@
 const {User, Detail} = require('../app/models/user');
+var bcrypt   = require('bcryptjs');
 
 module.exports = function(app, passport) {
 
@@ -185,6 +186,28 @@ module.exports = function(app, passport) {
         })
     })
     
+    app.get('/admin_newuser', isLoggedIn, isAdmin, (req,res) => {
+        res.render('adminNewUser');
+    })
+
+    app.post('/admin_newuser',isAdmin , isLoggedIn, (req, res) => {
+        const admin = req.body.admin ;
+        const email = req.body.email ;
+        const hashedPassword = bcrypt.hashSync(req.body.password, 8);
+                  
+        const user = new User({
+            'local.isAdmin': admin,
+            'local.email' : email,
+            'local.password': hashedPassword,
+        });
+        user.save((err) => {
+            if(err){
+                console.log("Error in saving, Admin! :/");
+            }
+        });         
+        res.redirect('/admin_home');  
+    })
+
     app.get('/profile/:id', isLoggedIn, isAdmin , (req,res) => {
         const id = req.params.id ;
         Detail.findOne({idUser : id}, (err, foundItem) => {
