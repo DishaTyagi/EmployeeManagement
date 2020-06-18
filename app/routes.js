@@ -206,7 +206,7 @@ module.exports = function(app, passport) {
             }
         });         
         res.redirect('/admin_home');  
-    })
+    });
 
     app.get('/profile/:id', isLoggedIn, isAdmin , (req,res) => {
         const id = req.params.id ;
@@ -215,12 +215,39 @@ module.exports = function(app, passport) {
                 if(foundItem){
                     res.render('employeeProfile', {item: foundItem, length: 0});                    
                 }else{
-                    res.render('employeeProfile', {length: 1})
+                    res.render('employeeProfile', {length: 1, userID: id})
                 }
             }else{
                 console.log("ERROR.");                
             }
         })
+    })
+
+    app.get('/delete/:id', isLoggedIn, isAdmin, (req, res) => {
+        const id = req.params.id;
+
+        Detail.deleteOne({idUser: id}, (err, result) => {
+            if(!err){
+                if(result){
+                    console.log(result);                    
+                }else{
+                    console.log('user with this id not found in details collection');                    
+                }
+            }else{
+                console.log('error in deleting detail doc.');                
+            }
+        });
+        User.deleteOne({_id: id}, (err, result) => {
+            if(!err){
+                if(result){
+                    console.log(result);                    
+                }
+            } else{
+                console.log("error in deleting item");                
+            }
+        });
+        res.redirect('/admin_home');
+
     })
 
     app.get('/contact', isLoggedIn, (req,res) => {
