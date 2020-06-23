@@ -1,5 +1,6 @@
 const {User, Detail} = require('../app/models/user');
 var bcrypt   = require('bcryptjs');
+var JSAlert = require('js-alert');
 
 module.exports = function(app, passport) {
 
@@ -101,7 +102,6 @@ module.exports = function(app, passport) {
 
     app.get('/profile', isLoggedIn, function(req, res) {        
         const userId = req.user._id ;
-        // const userId = req.params.userId;
         var length = 0;
         Detail.findOne({idUser: userId}, (err, foundItem) => {          
             if(!err){
@@ -112,7 +112,6 @@ module.exports = function(app, passport) {
                     length = 1 ;
                     console.log("Item is found "+ foundItem);
                     res.render('profile', {
-                        // userId: userId,
                         length: length,
                         user: req.user,
                         fname: foundItem.fname,
@@ -226,6 +225,10 @@ module.exports = function(app, passport) {
     app.get('/delete/:id', isLoggedIn, isAdmin, (req, res) => {
         const id = req.params.id;
 
+        if(req.user._id == id){     //if admin tries to delete his own profile.
+           JSAlert.alert("you cannot delete your own profile.").dismissIn(1000 * 10);
+           return res.redirect('/admin_home');
+        }
         Detail.deleteOne({idUser: id}, (err, result) => {
             if(!err){
                 if(result){
@@ -247,7 +250,6 @@ module.exports = function(app, passport) {
             }
         });
         res.redirect('/admin_home');
-
     })
 
     app.get('/contact', isLoggedIn, (req,res) => {

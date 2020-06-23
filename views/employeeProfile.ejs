@@ -12,12 +12,17 @@
         <li>Address: <%= item.address %> </li>
         <li>Phone no. <%= item.ph %> </li>
     </ul>
-    <a href="/delete/<%= item.idUser %> " class="btn btn-warning btn-lg">Delete User</a>
+    <div class="text-center">
+        <a href="/delete/<%= item.idUser %> " class="btn btn-warning btn-lg">Delete User</a>
+    </div>
 <% }else{ %> 
     <div style="text-align: center;">
         <h1>Employee has not added additional information.</h1>
     </div>
-    <a href="/delete/<%= userID %> " class="btn btn-warning btn-lg">Delete User</a>
+    <br>
+    <div class="text-center">
+        <a href="/delete/<%= userID %> " class="btn btn-warning btn-lg">Delete User</a>
+    </div>
 <% } %> 
 
 <%- include('partials/footer') %> 
